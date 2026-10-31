@@ -1,6 +1,6 @@
 # Simulador (sem Arduino físico)
 
-Teste a lógica do sistema no Mac **sem** sensor, LED ou placa.
+Teste a lógica do sistema no computador **sem** sensor, LED ou placa.
 
 O simulador em **C#** usa as mesmas regras do firmware:
 
@@ -9,19 +9,80 @@ O simulador em **C#** usa as mesmas regras do firmware:
 - histerese de **3%**
 - LED “aceso” quando precisa regar
 
-## Executável pronto
+O executável **não vem no repositório** (é gerado na sua máquina). Depois de clonar, instale o .NET SDK e publique o binário.
 
-Na pasta do projeto:
+## Pré-requisito: .NET SDK 8
+
+Confira se já tem:
 
 ```bash
+dotnet --version
+```
+
+Se não tiver, instale o **.NET 8 SDK**:
+
+- macOS / Windows / Linux: <https://dotnet.microsoft.com/download/dotnet/8.0>
+
+No macOS com Homebrew:
+
+```bash
+brew install --cask dotnet-sdk
+```
+
+## Opção A — Rodar direto do código (rápido)
+
+Na raiz do projeto clonado:
+
+```bash
+cd simulador/IrrigacaoSimulador
+dotnet run
+```
+
+Útil para desenvolver e testar alterações.
+
+## Opção B — Gerar o executável
+
+Gera um arquivo único em `dist/`, igual ao que existia localmente antes.
+
+### 1. Escolha o runtime da sua máquina
+
+| Sistema | Runtime (`-r`) |
+|---------|----------------|
+| macOS Apple Silicon (M1/M2/M3/M4) | `osx-arm64` |
+| macOS Intel | `osx-x64` |
+| Windows 64 bits | `win-x64` |
+| Linux 64 bits | `linux-x64` |
+
+### 2. Publique
+
+Na raiz do projeto:
+
+```bash
+cd simulador/IrrigacaoSimulador
+
+dotnet publish -c Release -r osx-arm64 --self-contained true \
+  -p:PublishSingleFile=true \
+  -o ../../dist
+```
+
+Troque `osx-arm64` pelo runtime da tabela se for outra plataforma.
+
+O binário fica em:
+
+- macOS / Linux: `dist/IrrigacaoSimulador`
+- Windows: `dist/IrrigacaoSimulador.exe`
+
+### 3. Execute
+
+```bash
+# macOS / Linux
 ./dist/IrrigacaoSimulador
+
+# Windows (PowerShell ou cmd, a partir da raiz do projeto)
+.\dist\IrrigacaoSimulador.exe
 ```
 
-Ou, pelo caminho completo:
-
-```bash
-/Users/joaovitorcamargo/www/arduino_irrigacao/dist/IrrigacaoSimulador
-```
+`--self-contained true` embute o runtime .NET no executável: quem receber só o arquivo de `dist/` **não precisa** instalar o SDK para rodar.
 
 ## Controles
 
@@ -39,28 +100,7 @@ Ou, pelo caminho completo:
 2. Quando passa **abaixo de 40%**, o LED fica **ACESO** e o alerta vira `REGAR`.
 3. Pressione **R** para simular a rega: a umidade sobe e o LED apaga (com histerese, a partir de 43%).
 
-## Rodar pelo código-fonte
+## Código-fonte
 
-Se quiser alterar e testar de novo:
-
-```bash
-export DOTNET_ROOT="$HOME/.dotnet"
-export PATH="$HOME/.dotnet:$PATH"
-
-cd /Users/joaovitorcamargo/www/arduino_irrigacao/simulador/IrrigacaoSimulador
-dotnet run
-```
-
-## Gerar o executável de novo
-
-```bash
-export DOTNET_ROOT="$HOME/.dotnet"
-export PATH="$HOME/.dotnet:$PATH"
-
-cd /Users/joaovitorcamargo/www/arduino_irrigacao/simulador/IrrigacaoSimulador
-dotnet publish -c Release -r osx-arm64 --self-contained true \
-  -p:PublishSingleFile=true \
-  -o ../../dist
-```
-
-O binário fica em `dist/IrrigacaoSimulador`.
+- Projeto: [`../simulador/IrrigacaoSimulador/`](../simulador/IrrigacaoSimulador/)
+- Lógica espelhada do firmware: [`../irrigacao/irrigacao.ino`](../irrigacao/irrigacao.ino)

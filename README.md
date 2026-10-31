@@ -27,15 +27,25 @@ flowchart LR
 
 ## Testar sem Arduino físico
 
-Há um **simulador em C#** (executável) com a mesma lógica do firmware:
+Há um **simulador em C#** com a mesma lógica do firmware.  
+Após clonar, gere o executável (precisa do [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)):
 
 ```bash
+cd simulador/IrrigacaoSimulador
+dotnet publish -c Release -r osx-arm64 --self-contained true \
+  -p:PublishSingleFile=true \
+  -o ../../dist
+
+# depois, na raiz do projeto:
 ./dist/IrrigacaoSimulador
 ```
 
+Em Mac Intel use `osx-x64`; Windows `win-x64`; Linux `linux-x64`.  
+Ou só rode sem gerar binário: `dotnet run` dentro de `simulador/IrrigacaoSimulador`.
+
 Controles: `↑/↓` umidade · `R` regar · `A` automático · `Q` sair  
 
-Guia: [`docs/07-simulador.md`](docs/07-simulador.md)
+Guia completo: [`docs/07-simulador.md`](docs/07-simulador.md)
 
 ---
 
@@ -49,8 +59,8 @@ arduino_irrigacao/
 │   └── irrigacao.ino         ← firmware Arduino (C/C++)
 ├── simulador/
 │   └── IrrigacaoSimulador/   ← código C# do simulador
-├── dist/
-│   └── IrrigacaoSimulador    ← executável pronto (macOS ARM)
+├── dist/                     ← gerado localmente (não versionado)
+│   └── IrrigacaoSimulador    ← após `dotnet publish`
 └── docs/
     ├── README.md             ← índice da documentação
     ├── 01-visao-geral.md

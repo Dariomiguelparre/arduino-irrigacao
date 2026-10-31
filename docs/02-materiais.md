@@ -31,9 +31,12 @@ Ambos funcionam com este firmware. Ajuste a **calibração** em [`06-calibracao.
 
 ## Software
 
-Já previsto neste repositório / ambiente:
+Para o **firmware Arduino**:
 
-- **arduino-cli** (instalado em `~/.local/bin`)
+- **arduino-cli** ou [Arduino IDE](https://www.arduino.cc/en/software)
 - Core **arduino:avr** (Uno / Nano)
 
-Alternativa gráfica: [Arduino IDE](https://www.arduino.cc/en/software).
+Para o **simulador** (sem hardware):
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) — gerar/rodar o executável  
+  Ver [`07-simulador.md`](07-simulador.md)
