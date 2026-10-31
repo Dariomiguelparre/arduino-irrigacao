@@ -1,0 +1,17 @@
+# Build / Arduino
+build/
+dist/
+*.elf
+*.hex
+*.o
+*.a
+.vscode/
+.idea/
+.DS_Store
+*.tmp
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo

@@ -1,0 +1,36 @@
+Esquema elétrico — Sistema de Irrigação (Arduino Uno / Nano)
+============================================================
+
+                         +5V
+                          |
+                     +----+----+
+                     |         |
+                  [Sensor]   (opcional)
+                  Umidade    divisor
+                     |         |
+                     +----+----+
+                          |
+                         A0  <--- Arduino
+                          |
+                         GND
+
+
+        Arduino D8 ----[ 220 Ω ]----|>|---- GND
+                                   LED
+                                 vermelho
+                              (cátodo no GND)
+
+
+Legenda de pinos
+----------------
+  A0 ......... Saída analógica do sensor de umidade do solo
+  D8 ......... LED vermelho de alerta (com resistor 220 Ω)
+  5V ......... Alimentação do sensor
+  GND ........ Terra comum (Arduino + sensor + LED)
+
+Notas
+-----
+  1. Use resistor de 220 Ω (ou 330 Ω) em série com o LED.
+  2. Sensor resistivo (FC-28 / YL-69): módulo com AO → A0.
+  3. Sensor capacitivo (v1.2): VCC→5V, GND→GND, AOUT→A0.
+  4. Nunca deixe o LED sem resistor — pode queimar o LED ou a porta.
